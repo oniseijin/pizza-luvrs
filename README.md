@@ -20,3 +20,8 @@ All Images copyright Ryan Lewis
 
 All Code under MIT license
 
+## Post Tutorial Actions
+
+ * Ansible 
+   * upload s3
+   
