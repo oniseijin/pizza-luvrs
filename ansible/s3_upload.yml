@@ -1,0 +1,21 @@
+---
+
+ - hosts: localhost
+   tasks: 
+   - name: upload s3 assets
+     command: aws s3 cp ../assets/{{item}}  s3://pizza-luvrs-ryan-mills/{{item}}/ --recursive --exclude ".DS_Store" 
+     args: 
+      chdir: "{{ playbook_dir }}"
+     with_items:
+       - js
+       - css
+       - pizzas
+       - toppings
+   - name: upload s3 root assets
+     command: aws s3 cp {{item}}  s3://pizza-luvrs-ryan-mills/ 
+     args: 
+      chdir: "{{ playbook_dir }}"
+     with_fileglob:
+       - "../assets/*.png"
+       
+   
