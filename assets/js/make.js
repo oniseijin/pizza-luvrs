@@ -15,7 +15,7 @@ function loadImages () {
   $.each(toppings, function (key, val) {
     var img = new Image();
     img.setAttribute('crossOrigin', 'anonymous');
-    img.src = '/assets/toppings/' + val.image;
+    img.src = '//s3-ap-northeast-1.amazonaws.com/pizza-luvrs-ryan-mills/toppings/' + val.image;
     val.img = img;
   });
 }
