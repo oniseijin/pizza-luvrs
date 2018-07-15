@@ -1,0 +1,10 @@
+---
+
+ - hosts: aws-pizza 
+   tasks: 
+   - name: Update Code in home dir
+     git: 
+       repo: https://github.com/oniseijin/pizza-luvrs
+       dest: "/home/{{ ansible_user }}/pizza-luvrs"
+  
+  
