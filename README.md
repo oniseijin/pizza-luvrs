@@ -20,8 +20,8 @@ All Images copyright Ryan Lewis
 
 All Code under MIT license
 
-## Post Tutorial Actions
+## After tutorial actions
 
  * Ansible 
    * upload s3
-   
+ * Adjusted static assets to pull from S3
