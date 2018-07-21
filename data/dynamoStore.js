@@ -1,5 +1,5 @@
 const AWS = require('aws-sdk');
-AWS.config.update({region: 'us-west-2'});
+AWS.config.update({region: 'ap-northeast-1'});
 
 const dynamodb = new AWS.DynamoDB();
 

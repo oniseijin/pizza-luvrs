@@ -1,14 +1,13 @@
 'use strict';
 
 const Topping = require('../models/topping'),
+  DynamoStore = require('./dynamoStore'),
   _ = require('lodash');
 
-const toppings = {};
-
 function initToppings (callback) {
-  createTopping('Dough Crust', 'dough_crust.png', 'dough_crust_big.png', 1);
-  createTopping('Marinara Sauce', 'marinara_sauce.png', 'marinara_sauce_big.png', 2);
-  createTopping('Mozzarella Cheese', 'mozzarella_cheese.png', 'mozzarella_cheese_big.png', 3);
+  createTopping('Dough Crust', 'dough_crust.png', 'dough_crust.png', 1);
+  createTopping('Marinara Sauce', 'marinara_sauce.png', 'marinara_sauce.png', 2);
+  createTopping('Mozzarella Cheese', 'mozzarella_cheese.png', 'mozzarella_cheese.png', 3);
   createTopping('Cheddar Cheese', 'cheddar.png', 'cheddar_cheese.png', 4);
   createTopping('Mushrooms', 'mushroom.png', 'mushrooms.png', 5);
   createTopping('Pepperoni', 'pepperoni.png', 'pepperonis.png', 6);
@@ -22,15 +21,23 @@ function initToppings (callback) {
 }
 
 function getAllToppings (callback) {
-  let tops = _.values(toppings);
-  callback(null, _.sortBy(tops, ['order']));
+  DynamoStore.getAllItems('toppings', (err, data) => {
+    let toppings = dynamoItemsToToppings(data.Items);
+    callback(err, _.sortBy(toppings, ['order']));
+  });
 }
 
 function createTopping (name, preview_image, image, order) {
   let id = name.replace(/ /g, '_').toLowerCase(),
     topping = new Topping(id, name, preview_image, image, order);
 
-  toppings[id] = topping;
+  DynamoStore.putItem('toppings', topping, (err, data) => {});
+}
+
+function dynamoItemsToToppings (items) {
+  return items.map((item) => {
+    return new Topping(item.id.S, item.name.S, item.preview_image.S, item.image.S, +item.order.N);
+  });
 }
 
 module.exports.getAllToppings = getAllToppings;
